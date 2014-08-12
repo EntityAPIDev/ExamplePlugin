@@ -8,7 +8,7 @@ import org.entityapi.api.entity.ControllableEntityType;
 
 @Command(
         command = "entity",
-        aliases = {"a"},
+        aliases = {"e"},
         description = "Basic entity manipulation",
         permission = "entityapi.test.entity",
         help = {}, // TODO
@@ -23,6 +23,27 @@ public class EntityCommand implements CommandListener {
 
         manager.spawnEntity(ControllableEntityType.COW, event.sender().getLocation());
 
+        return true;
+    }
+
+    @NestedCommand
+    @Command(
+            command = "spawn <type>",
+            description = "Spawn an entity"
+    )
+    public boolean spawn(CommandEvent<Player> event) {
+        ControllableEntityType type = null;
+        try {
+            type = ControllableEntityType.valueOf(event.variable("type"));
+        } catch (IllegalArgumentException e) {
+            event.respond(event.variable("type") + " is not a valid entity type!");
+            return true;
+        }
+
+        EntityManager manager = Main.getInstance().getEntityManager();
+        manager.spawnEntity(type, event.sender().getLocation());
+
+        event.respond(event.variable("type") + " spawned!");
         return true;
     }
 
