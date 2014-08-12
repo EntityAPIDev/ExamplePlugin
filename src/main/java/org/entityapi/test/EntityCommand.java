@@ -4,6 +4,8 @@ import com.captainbern.minecraft.reflection.MinecraftReflection;
 import com.dsh105.command.*;
 import com.dsh105.commodus.GeneralUtil;
 import org.bukkit.entity.Player;
+import org.entityapi.api.EntityManager;
+import org.entityapi.api.entity.ControllableEntityType;
 
 @Command(
         command = "entity",
@@ -18,6 +20,15 @@ public class EntityCommand implements CommandListener {
     @ParentCommand
     public boolean command(CommandEvent/*<Player> TODO: Player only?*/ event) {
         // TODO: stuff
+
+        if (event.sender() instanceof Player) {
+            Player player = (Player) event.sender();
+
+            EntityManager manager = Main.getInstance().getEntityManager();
+
+            manager.spawnEntity(ControllableEntityType.COW, player.getLocation());
+        }
+
         return true;
     }
 
