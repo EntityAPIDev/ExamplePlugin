@@ -18,16 +18,11 @@ import org.entityapi.api.entity.ControllableEntityType;
 public class EntityCommand implements CommandListener {
 
     @ParentCommand
-    public boolean command(CommandEvent/*<Player> TODO: Player only?*/ event) {
+    public boolean command(CommandEvent<Player> event) {
         // TODO: stuff
+        EntityManager manager = Main.getInstance().getEntityManager();
 
-        if (event.sender() instanceof Player) {
-            Player player = (Player) event.sender();
-
-            EntityManager manager = Main.getInstance().getEntityManager();
-
-            manager.spawnEntity(ControllableEntityType.COW, player.getLocation());
-        }
+        manager.spawnEntity(ControllableEntityType.COW, event.sender().getLocation());
 
         return true;
     }
