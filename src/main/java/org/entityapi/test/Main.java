@@ -1,5 +1,7 @@
 package org.entityapi.test;
 
+import com.dsh105.command.CommandManager;
+import com.dsh105.command.PluginCommandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.entityapi.api.EntityManager;
@@ -8,6 +10,7 @@ import org.entityapi.api.plugin.EntityAPI;
 public class Main extends JavaPlugin {
 
     private EntityManager entityManager;
+    private CommandManager commandManager;
 
     @Override
     public void onEnable() {
@@ -19,6 +22,9 @@ public class Main extends JavaPlugin {
         }
 
         this.entityManager = EntityAPI.createManager(this);
+
+        this.commandManager = new PluginCommandManager<>(this);
+        this.commandManager.register(new EntityCommand());
 
     }
 
