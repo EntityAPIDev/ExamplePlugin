@@ -1,6 +1,9 @@
 package org.entityapi.test;
 
+import com.captainbern.minecraft.reflection.MinecraftReflection;
 import com.dsh105.command.*;
+import com.dsh105.commodus.GeneralUtil;
+import org.bukkit.entity.Player;
 
 @Command(
         command = "entity",
@@ -25,7 +28,21 @@ public class EntityCommand implements CommandListener {
             aliases = {"h"}
     )
     public boolean help(CommandEvent event) {
-        // TODO: stuff
+        Main.getInstance().getCommandManager().getHelpService().sendPage(event.sender(), 1);
+        return true;
+    }
+
+    @NestedCommand
+    @Command(
+            command = "help <index>",
+            description = "Retrieve a certain help page of all HoloAPI commands"
+    )
+    public boolean helpPage(CommandEvent event) {
+        try {
+            Main.getInstance().getCommandManager().getHelpService().sendPage(event.sender(), GeneralUtil.toInteger(event.variable("index")));
+        } catch (NumberFormatException e) {
+            event.respond(event.variable("index") + " must be a number!");
+        }
         return true;
     }
 }

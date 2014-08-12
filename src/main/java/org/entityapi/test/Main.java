@@ -9,11 +9,14 @@ import org.entityapi.api.plugin.EntityAPI;
 
 public class Main extends JavaPlugin {
 
+    private static Main INSTANCE;
+
     private EntityManager entityManager;
     private CommandManager commandManager;
 
     @Override
     public void onEnable() {
+        INSTANCE = this;
 
         if (!Bukkit.getPluginManager().isPluginEnabled("EntityAPI")) {
             getLogger().info("EntityAPI is not enabled! -> disabling");
@@ -30,10 +33,19 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        INSTANCE = null;
 
+    }
+
+    public static Main getInstance() {
+        return INSTANCE;
     }
 
     public EntityManager getEntityManager() {
         return this.entityManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 }
