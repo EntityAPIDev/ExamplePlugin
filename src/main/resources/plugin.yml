@@ -3,3 +3,4 @@ version: ${project.version}
 main: org.entityapi.test.Main
 authors: [DSH105, CaptainBern]
 description: A plugin used to debug/test EntityAPI
+depends: [EntityAPI]
