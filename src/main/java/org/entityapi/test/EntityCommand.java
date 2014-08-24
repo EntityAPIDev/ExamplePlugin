@@ -19,10 +19,6 @@ public class EntityCommand implements CommandListener {
     @ParentCommand
     public boolean command(CommandEvent<Player> event) {
         // TODO: stuff
-        EntityManager manager = Main.getInstance().getEntityManager();
-
-        manager.spawnEntity(ControllableEntityType.COW, event.sender().getLocation());
-
         return true;
     }
 
@@ -34,16 +30,16 @@ public class EntityCommand implements CommandListener {
     public boolean spawn(CommandEvent<Player> event) {
         ControllableEntityType type = null;
         try {
-            type = ControllableEntityType.valueOf(event.variable("type"));
+            type = ControllableEntityType.valueOf(event.variable("type").toUpperCase());
         } catch (IllegalArgumentException e) {
             event.respond(event.variable("type") + " is not a valid entity type!");
             return true;
         }
 
         EntityManager manager = Main.getInstance().getEntityManager();
-        manager.spawnEntity(type, event.sender().getLocation());
+        manager.spawnEntity(type, event.sender().getLocation(), false);
 
-        event.respond(event.variable("type") + " spawned!");
+        event.respond(event.variable("type").toLowerCase() + " spawned!");
         return true;
     }
 
