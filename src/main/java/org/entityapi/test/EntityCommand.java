@@ -3,6 +3,7 @@ package org.entityapi.test;
 import com.dsh105.command.*;
 import com.dsh105.commodus.GeneralUtil;
 import org.bukkit.entity.Player;
+import org.entityapi.api.EntityBuilder;
 import org.entityapi.api.EntityManager;
 import org.entityapi.api.entity.ControllableEntityType;
 
@@ -40,6 +41,30 @@ public class EntityCommand implements CommandListener {
         manager.spawnEntity(type, event.sender().getLocation(), false);
 
         event.respond(event.variable("type").toLowerCase() + " spawned!");
+        return true;
+    }
+
+    @NestedCommand
+    @Command(
+            command = "spawnPlayer <name>",
+            description = "Spawn an entity"
+    )
+    public boolean spawnPlayer(CommandEvent<Player> event) {
+        String name;
+        try {
+            name = event.variable("name");
+        } catch (IllegalArgumentException e) {
+            event.respond(event.variable("type") + " is not a valid entity type!");
+            return true;
+        }
+
+        EntityManager manager = Main.getInstance().getEntityManager();
+        manager.spawnEntity(new EntityBuilder(manager)
+        .atLocation(event.sender().getLocation())
+        .withName(name)
+        .withType(ControllableEntityType.HUMAN));
+
+        event.respond(name + " spawned!");
         return true;
     }
 
